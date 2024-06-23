@@ -29,13 +29,13 @@ let debugText;
 
 // Asset loading
 function preload() {
-    this.load.image('background', 'https://opengameart.org/sites/default/files/RockyStonePath_0.png');
+    // We'll create our own background, so no need to load an image
 }
 
 // Game world creation
 function create() {
-    // Add background
-    this.add.tileSprite(0, 0, config.width, config.height, 'background').setOrigin(0);
+    // Create a simple grid background
+    createGridBackground.call(this);
 
     // Add game title
     this.add.text(config.width / 2, 50, 'The Headsman\'s Tale', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
@@ -57,6 +57,23 @@ function update() {
 
     // Update debug information
     updateDebugInfo();
+}
+
+// Function to create a grid background
+function createGridBackground() {
+    const graphics = this.add.graphics();
+    graphics.lineStyle(1, 0x00ff00, 0.8);
+    
+    for (let i = 0; i < config.width; i += 32) {
+        graphics.moveTo(i, 0);
+        graphics.lineTo(i, config.height);
+    }
+    for (let j = 0; j < config.height; j += 32) {
+        graphics.moveTo(0, j);
+        graphics.lineTo(config.width, j);
+    }
+    
+    graphics.strokePath();
 }
 
 // Function to create the player character
